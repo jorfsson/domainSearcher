@@ -15,10 +15,16 @@ app.use(bodyParser.json())
 
 app.post('/', (req, res) => {
   console.log(req.body);
-  res.send({
-    name: req.body.data,
-    link: `http://${req.body.data}.com`
-  });
+  res.send([
+    {
+      name: req.body.data,
+      link: `http://${req.body.data}.com`
+    },
+    {
+      name: req.body.data,
+      link: `http://footlocker.com`
+    }
+  ]);
 })
 
 app.listen(port, () => {

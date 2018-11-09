@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Results from './Results.jsx';
 
 class App extends React.Component{
   constructor(props) {
@@ -41,6 +42,7 @@ class App extends React.Component{
           <input type="text" name="search" onChange={this.handleChange} />
           <button type="submit">Submit</button>
         </form>
+        <Results queryResults={this.state.results} />
       </div>
     )
   }
