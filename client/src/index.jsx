@@ -5,7 +5,7 @@ import App from './components/App.jsx';
 class Index extends React.Component{
   render() {
     return (
-      <div>Hello</div>
+      <div><App /></div>
     )
   }
 }
