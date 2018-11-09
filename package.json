@@ -1,0 +1,45 @@
+{
+  "name": "domainsearch",
+  "version": "1.0.0",
+  "description": "Domain Search Tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon server/main.js",
+    "start:dev": "webpack-dev-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jorfsson/domainSearcher.git"
+  },
+  "keywords": [
+    "Domain",
+    "Search"
+  ],
+  "author": "Jorfsson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jorfsson/domainSearcher/issues"
+  },
+  "homepage": "https://github.com/jorfsson/domainSearcher#readme",
+  "dependencies": {
+    "@babel/polyfill": "^7.0.0",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "lodash": "^4.17.11",
+    "nodemon": "^1.18.6",
+    "react": "^16.6.1",
+    "react-dom": "^16.6.1",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.5",
+    "@babel/preset-env": "^7.1.5",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.0-beta.0",
+    "webpack": "^4.25.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10"
+  }
+}
