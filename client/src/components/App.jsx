@@ -5,7 +5,8 @@ class App extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      search: ""
+      search: "",
+      results: []
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -13,7 +14,18 @@ class App extends React.Component{
 
   handleSubmit(e){
     e.preventDefault();
-    console.log(this.state.search)
+    fetch('http://localhost:3000', {
+      method: 'POST',
+      mode: 'cors',
+      body: JSON.stringify({data: this.state.search}),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+    .then((response) => response.json())
+    .then((data) => this.setState({
+      results: data
+    })).then((data)=>{console.log(this.state.results)})
   }
 
   handleChange(e){

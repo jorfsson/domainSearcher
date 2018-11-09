@@ -5,9 +5,20 @@ const app = express();
 const port = 3000;
 const server = require('http').Server(app);
 
-app.get('/proxy', (req, res) => {
-  console.log('Proxy working!');
-  res.send('Hello Guy');
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+app.use(bodyParser.json())
+
+app.post('/', (req, res) => {
+  console.log(req.body);
+  res.send({
+    name: req.body.data,
+    link: `http://${req.body.data}.com`
+  });
 })
 
 app.listen(port, () => {
