@@ -1,9 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const request = require('request');
 const app = express();
 const port = 3000;
 const server = require('http').Server(app);
+const { grabDomains } = require('./eventHandler.js');
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -11,20 +13,10 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 app.post('/', (req, res) => {
-  console.log(req.body);
-  res.send([
-    {
-      name: req.body.data,
-      link: `http://${req.body.data}.com`
-    },
-    {
-      name: req.body.data,
-      link: `http://footlocker.com`
-    }
-  ]);
+  Promise.all(grabDomains(req.body.data)).then((data) => { res.send(data) });
 })
 
 app.listen(port, () => {

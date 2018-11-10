@@ -15,10 +15,11 @@ class App extends React.Component{
 
   handleSubmit(e){
     e.preventDefault();
+    let partitionedResults = this.state.search.split(',').map((result) => result.trim())
     fetch('http://localhost:3000', {
       method: 'POST',
       mode: 'cors',
-      body: JSON.stringify({data: this.state.search}),
+      body: JSON.stringify({data: partitionedResults}),
       headers: {
         'Content-Type': 'application/json'
       },
@@ -26,7 +27,7 @@ class App extends React.Component{
     .then((response) => response.json())
     .then((data) => this.setState({
       results: data
-    })).then((data)=>{console.log(this.state.results)})
+    })).then((data)=>{this.state.results})
   }
 
   handleChange(e){
@@ -42,7 +43,7 @@ class App extends React.Component{
           <input type="text" name="search" onChange={this.handleChange} />
           <button type="submit">Submit</button>
         </form>
-        <Results queryResults={this.state.results} />
+        <Results results={this.state.results} />
       </div>
     )
   }
