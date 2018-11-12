@@ -1,6 +1,7 @@
 const path = require('path');
 const request = require('request-promise');
 const qs = require('querystring');
+const { search, addResults } = require('../../database/queries');
 
 const grabDomains = (queries) =>
     queries.map((query) => {
@@ -11,9 +12,16 @@ const grabDomains = (queries) =>
           cx: '009637816073108880163:nfsysoqnztc',
           q: query
         }
-      };
+      }, searchID = search(query);
       return request(options)
-      .then((response) => ({ name: query, link: JSON.parse(response).items[0].link }))
+      .then((response) => {
+        let results = JSON.parse(response).items.map((item) => item.link);
+        addResults(results);
+        return {
+          name: query,
+          link: results[0]
+        }
+      })
       .catch((err) => { console.log(err) })
     })
 

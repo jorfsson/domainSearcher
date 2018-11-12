@@ -5,7 +5,7 @@ const request = require('request');
 const app = express();
 const port = 3000;
 const server = require('http').Server(app);
-const { grabDomains } = require('./eventHandler.js');
+const { grabDomains } = require('./domainRequestHandlers/request.js');
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
