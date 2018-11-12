@@ -7,6 +7,8 @@ const knex = require('knex')({
       database: 'domains',
       charset: 'utf-8'
     }
-  }), bookshelf = require('bookshelf')(knex);
+  }), Bookshelf = require('bookshelf')(knex);
 
-module.exports = bookshelf;
+Bookshelf.plugin('registry');
+
+module.exports = Bookshelf;

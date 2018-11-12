@@ -1,3 +1,12 @@
-const Bookshelf = require('../database.js');
+const BaseModel = require('./BaseModel.js');
 
-require('./search')
+require('./Search');
+
+let Domain = BaseModel.extend({
+  tableName: 'domains',
+  searches: function() {
+    return this.belongsToMany(Search, 'search_results')
+  }
+});
+
+module.exports = Domain;

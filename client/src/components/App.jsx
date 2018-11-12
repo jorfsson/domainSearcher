@@ -15,19 +15,21 @@ class App extends React.Component{
 
   handleSubmit(e){
     e.preventDefault();
-    let partitionedResults = this.state.search.split(',').map((result) => result.trim())
-    fetch('http://localhost:3000/search', {
-      method: 'POST',
-      mode: 'cors',
-      body: JSON.stringify({data: partitionedResults}),
-      headers: {
-        'Content-Type': 'application/json'
-      },
+    let searchTerms = this.state.search.split(',').map((result) => result.trim());
+    searchTerms.forEach((search) => {
+      fetch('http://localhost:3000/search', {
+        method: 'POST',
+        mode: 'cors',
+        body: JSON.stringify({data: search}),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
     })
-    .then((response) => response.json())
-    .then((data) => this.setState({
-      results: data
-    })).then((data)=>{this.state.results})
   }
 
   handleChange(e){

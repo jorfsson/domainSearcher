@@ -1,7 +1,7 @@
-const Bookshelf = require('../database.js');
+const BaseModel = require('./BaseModel.js');
 
-let Result = Bookshelf.Model.extend({
-  tableName: 'search_results'
+let Result = BaseModel.extend({
+  tableName: 'search_results',
 })
 
-module.exports = Bookshelf.Model('Result', Result);
+module.exports = Result;
