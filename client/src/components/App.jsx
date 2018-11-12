@@ -16,7 +16,7 @@ class App extends React.Component{
   handleSubmit(e){
     e.preventDefault();
     let partitionedResults = this.state.search.split(',').map((result) => result.trim())
-    fetch('http://localhost:3000', {
+    fetch('http://localhost:3000/search', {
       method: 'POST',
       mode: 'cors',
       body: JSON.stringify({data: partitionedResults}),

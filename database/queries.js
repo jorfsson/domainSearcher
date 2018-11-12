@@ -4,52 +4,61 @@ const knex = require('knex')({
     host: '127.0.0.1',
     user: 'postgres',
     password: 'hello',
-    database: 'domainSearch',
+    database: 'domains',
     charset: 'utf-8'
   }
 });
 
-const bookshelf = require('bookshelf')(knex);
+const Bookshelf = require('bookshelf')(knex);
 
-let User = bookshelf.Model.extend({
+let User = Bookshelf.Model.extend({
   tableName: 'users'
 })
 
-let Domain = bookshelf.Model.extend({
+let Domain = Bookshelf.Model.extend({
   tableName: 'domains',
   searches: function() {
-    return this.belongsToMany(SearchTerm, 'search_results')
+    return this.belongsToMany(Search, 'search_results')
   }
 })
 
-let SearchTerm = bookshelf.Model.extend({
+let Search = Bookshelf.Model.extend({
   tableName: 'searches',
   results: function() {
     return this.belongsToMany(Domain, 'search_results')
   }
 })
 
-let Results = bookshelf.Model.extend({
-  tableName: 'search_results'
+let Results = Bookshelf.Model.extend({
+  tableName: 'search_results',
 })
 
-const search = (term) =>
-  new SearchTerm({ searchTerm: term }).save()
+const createSearch = (term) =>
+  new Search({ search_term: term }).save()
   .then((newRow) => { console.log(`Added search term '${term}' at row ${newRow.id}`); return newRow.id })
+  .catch((err) => { console.log(err.error) })
+
+const createDomain = (domain) =>
+  new Domain({ url: domain }).save()
+  .then((newRow) => { console.log(`Added new Domain '${domain}' at row ${newRow.id}`); return newRow.id })
+  .catch((err) => { console.log(`New Domain record: ${err}`) })
+
+const createResult = (search_id, domain_id) =>
+  new Results({ search_id: search_id, domain_id: domain_id }).save()
+  .then((result) => { console.log('Success!')})
   .catch((err) => { console.log(err) })
 
-const addResults = (results, searchID) => {
-  results.forEach((result) => {
-    new Domain({ URL: result })
-    .save()
-    .then((newRow) => { new Results({ search_id: searchID, domain_id: newRow.id })
-      .save()
-      .then((newRow) => { console.log(`New search result created at ${newRow.id}`) })
-      .catch((err) => { console.log(`Error creating new Results record: ${err}`) })
+const addResults = (search, results) => {
+  createSearch(search).then((search_id) => {
+    results.forEach((result) => {
+      createDomain.then((domain_id) => {
+        createResult(search_id, domain_id);
+      })
     })
-    .catch((err) => { console.log(`Error creating new Domain record: ${err}`) })
   })
 }
 
-module.exports.search = search;
 module.exports.addResults = addResults;
+module.exports.Results = Results;
+module.exports.Search = Search;
+module.exports.Domain = Domain;

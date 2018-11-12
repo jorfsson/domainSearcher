@@ -6,28 +6,32 @@ CREATE DATABASE domains;
 CREATE TABLE users (
   ID SERIAL PRIMARY KEY,
   name VARCHAR NOT NULL,
-  password VARCHAR NOT NULL
+  password VARCHAR NOT NULL,
+  UNIQUE(name)
 );
 
 CREATE TABLE searches (
   ID SERIAL PRIMARY KEY,
-  search_term VARCHAR NOT NULL
+  search_term VARCHAR NOT NULL,
+  UNIQUE(search_term)
 );
 
 CREATE TABLE domains (
   ID SERIAL PRIMARY KEY,
-  URL VARCHAR NOT NULL
+  url VARCHAR NOT NULL,
+  UNIQUE(url)
 );
 
 CREATE TABLE search_results (
   ID SERIAL PRIMARY KEY,
   search_id INT NOT NULL,
   domain_id INT NOT NULL,
-  conversions INT NOT NULL
+  conversions INT DEFAULT 0,
   CONSTRAINT search_id_fkey FOREIGN KEY (search_id)
     REFERENCES searches (ID) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT domain_id_fkey FOREIGN KEY (domain_id)
     REFERENCES domains (ID) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION,
+  UNIQUE (search_id, domain_id)
 )
