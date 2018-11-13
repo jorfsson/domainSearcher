@@ -5,7 +5,7 @@ CREATE DATABASE domains;
 
 CREATE TABLE users (
   ID SERIAL PRIMARY KEY,
-  name VARCHAR NOT NULL,
+  username VARCHAR NOT NULL,
   password VARCHAR NOT NULL,
   UNIQUE(name)
 );

@@ -2,10 +2,8 @@ const request = require('request-promise');
 const Domain = require('../models/Domain');
 const Result = require('../models/Result');
 const Search = require('../models/Search');
-const User = require('../models/User');
 
 exports.getDomains = async (req, res, next) => {
-    console.log(req.body.data)
     let options = {
       url: 'https://www.googleapis.com/customsearch/v1',
       qs: {

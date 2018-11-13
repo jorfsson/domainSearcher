@@ -1,13 +1,16 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 import App from './components/App.jsx';
 
 class Index extends React.Component{
   render() {
     return (
-      <div><App /></div>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     )
   }
 }
 
-ReactDOM.render(<Index />, document.getElementById('App'));
+render(<Index />, document.getElementById('App'));

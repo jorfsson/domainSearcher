@@ -7,12 +7,13 @@ module.exports = {
   entry: [`@babel/polyfill`, `${APP_DIR}/index.jsx`],
   output: {
     path: BUILD_DIR,
-    publicPath: '/dist/',
+    publicPath: '/',
     filename: 'bundle.js'
   },
   devServer: {
     contentBase: BUILD_DIR,
     compress: true,
+    historyApiFallback: true,
     port: 8080,
     proxy: {
       '/api': {

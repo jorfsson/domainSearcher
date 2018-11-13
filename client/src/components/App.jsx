@@ -1,49 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Results from './Results.jsx';
+import {
+  Route,
+  Redirect,
+  withRouter
+} from "react-router-dom";
+import Auth from './Auth.jsx';
+import Login from './Login.jsx';
+import Search from './Search.jsx';
 
 class App extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      search: "",
-      results: []
+      loggedIn: false
     }
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleSubmit(e){
-    e.preventDefault();
-    console.log('Submitting!');
-    fetch('http://localhost:3000/search', {
-      method: 'POST',
-      mode: 'cors',
-      body: JSON.stringify({data: this.state.search}),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-    })
-  }
-
-  handleChange(e){
-    this.setState({
-      search: e.target.value
-    })
   }
 
   render() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
-          <input type="text" name="search" onChange={this.handleChange} />
-          <button type="submit">Submit</button>
-        </form>
-        <Results results={this.state.results} />
+        <Route exact path='/' render={() => (
+          this.state.loggedIn ? (
+            <Redirect to='/search' />
+          ) : (
+            <Redirect to='/login' />
+          ))}/>
+        <Route path="/search" component={Search}/>
+        <Route path="/login" component={Login}/>
       </div>
     )
   }

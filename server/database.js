@@ -1,10 +1,10 @@
 const knex = require('knex')({
     client: 'postgresql',
     connection: {
-      host: '127.0.0.1',
-      user: 'postgres',
-      password: 'hello',
-      database: 'domains',
+      host: process.env.db_host,
+      user: process.env.db_user,
+      password: process.env.db_password,
+      database: process.env.db_database,
       charset: 'utf-8'
     }
   }), Bookshelf = require('bookshelf')(knex);
