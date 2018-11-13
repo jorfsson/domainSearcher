@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Auth from './Auth.jsx';
+import * as Auth from './Auth.jsx';
 
 class Login extends React.Component {
   constructor(props) {
@@ -19,7 +19,7 @@ class Login extends React.Component {
     e.preventDefault();
     const { username, password } = this.state;
     Auth.login(username, password)
-    .then((res) => res.json())
+    .then((res) => { this.props.history.replace('/') })
     .catch((err) => { console.log(error) })
   }
 
@@ -31,6 +31,8 @@ class Login extends React.Component {
           <input type="text" name="username" onChange={this.onChange} />
           Password
           <input type="password" name="password" onChange={this.onChange} />
+          <button type="submit" name="action" value="login">Login</button>
+          <button type="submit" name="action" value="register">Register</button>
         </form>
       </div>
     )

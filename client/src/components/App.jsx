@@ -5,7 +5,7 @@ import {
   Redirect,
   withRouter
 } from "react-router-dom";
-import Auth from './Auth.jsx';
+import * as Auth from './Auth.jsx';
 import Login from './Login.jsx';
 import Search from './Search.jsx';
 
@@ -13,7 +13,7 @@ class App extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      loggedIn: false
+      loggedIn: Auth.login()
     }
   }
 
