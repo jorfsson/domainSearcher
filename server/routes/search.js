@@ -4,4 +4,8 @@ const { getDomains, createSearch, createDomains, createResults, getResults } = r
 
 router.post('/', createSearch, getDomains, createDomains, createResults, getResults);
 
+router.post('/test', (req, res) => {
+  res.send('Success!')
+})
+
 module.exports = router;

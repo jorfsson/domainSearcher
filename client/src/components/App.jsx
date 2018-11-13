@@ -15,20 +15,18 @@ class App extends React.Component{
 
   handleSubmit(e){
     e.preventDefault();
-    let searchTerms = this.state.search.split(',').map((result) => result.trim());
-    searchTerms.forEach((search) => {
-      fetch('http://localhost:3000/search', {
-        method: 'POST',
-        mode: 'cors',
-        body: JSON.stringify({data: search}),
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
+    console.log('Submitting!');
+    fetch('http://localhost:3000/search', {
+      method: 'POST',
+      mode: 'cors',
+      body: JSON.stringify({data: this.state.search}),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
     })
   }
 

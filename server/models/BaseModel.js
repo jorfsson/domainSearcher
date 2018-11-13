@@ -5,13 +5,9 @@ const BaseModel = Bookshelf.Model.extend({},
     findOne: function (selectData, callback) {
       return this.forge(selectData).fetch(callback);
     },
-    upsert: async function (selectData, updateData) {
+    upsert: async function (selectData) {
       const existingModel = await this.findOne(selectData);
-      if (existingModel) {
-        return await existingModel.set(updateData).save();
-      } else {
-        return await new this(updateData).save();
-      }
+      return existingModel ? existingModel : await new this(selectData).save();
     }
   },
 );

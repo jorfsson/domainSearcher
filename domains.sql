@@ -22,7 +22,7 @@ CREATE TABLE domains (
   UNIQUE(url)
 );
 
-CREATE TABLE search_results (
+CREATE TABLE searches_domains (
   ID SERIAL PRIMARY KEY,
   search_id INT NOT NULL,
   domain_id INT NOT NULL,
