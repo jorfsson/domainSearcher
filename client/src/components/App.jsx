@@ -5,7 +5,7 @@ import {
   Redirect,
   withRouter
 } from "react-router-dom";
-import * as Auth from './Auth.jsx';
+import { loggedIn, logout, getToken } from './utils.jsx';
 import Login from './Login.jsx';
 import Search from './Search.jsx';
 
@@ -13,21 +13,28 @@ class App extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      loggedIn: Auth.login()
+      token: null
     }
+    this.setTokenState = this.setTokenState.bind(this);
+  }
+
+  setTokenState(token) {
+    this.setState({
+      token: getToken()
+    })
   }
 
   render() {
     return (
       <div>
-        <Route exact path='/' render={() => (
-          this.state.loggedIn ? (
-            <Redirect to='/search' />
+        <Route exact path='/' render={(props) =>
+          this.state.token !== null ? (
+            <Redirect to='/search' {...props} />
           ) : (
-            <Redirect to='/login' />
-          ))}/>
-        <Route path="/search" component={Search}/>
-        <Route path="/login" component={Login}/>
+            <Redirect to='/login' {...props} />
+          )}/>
+        <Route path='/search' render={(props) => <Search setTokenState={this.setTokenState} {...props}/>}/>
+        <Route path='/login' render={(props) => <Login setTokenState={this.setTokenState} {...props}/>}/>
       </div>
     )
   }

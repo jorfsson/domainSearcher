@@ -7,7 +7,7 @@ CREATE TABLE users (
   ID SERIAL PRIMARY KEY,
   username VARCHAR NOT NULL,
   password VARCHAR NOT NULL,
-  UNIQUE(name)
+  UNIQUE(username)
 );
 
 CREATE TABLE searches (

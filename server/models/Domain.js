@@ -1,7 +1,7 @@
 const BaseModel = require('./BaseModel.js');
 
 let Domain = BaseModel.extend({
-  tableName: 'domains'
+  tableName: "domains"
 });
 
 module.exports = Domain;
