@@ -1,7 +1,7 @@
 import React from 'react';
 import Results from './Results.jsx';
 import decode from 'jwt-decode';
-import { authFetch, logout, getToken, loggedIn } from './utils.jsx';
+import { authFetch, logout, getToken, loggedIn, search } from './utils.jsx';
 
 class Search extends React.Component{
   constructor(props) {
@@ -17,16 +17,8 @@ class Search extends React.Component{
 
   handleSubmit(e){
     e.preventDefault();
-    console.log('Submitting!');
-    authFetch('http://localhost:3000/search', {
-      method: 'POST',
-      mode: 'cors',
-      body: JSON.stringify({data: this.state.search}),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
-    .then((data) => { console.log(data); })
+    search(this.state.search)
+    .then((res) => this.setState({ results: res }))
   }
 
   handleChange(e) {
@@ -44,13 +36,17 @@ class Search extends React.Component{
   render() {
     return (
       <div className="container">
-        <button type="submit" onClick={this.handleLogout}>Logout</button>
-        User logged in as {this.props.user}
+        <div className="search__user-bar d-flex">
+          <span className="search__user-bar__username">Logged in as <strong>{this.props.username}</strong></span>
+          <button type="submit" onClick={this.handleLogout}>Logout</button>
+        </div>
         <div className="search d-flex">
-          <form onSubmit={this.handleSubmit}>
-            <input type="text" name="search" onChange={this.handleChange} />
-            <button type="submit">Submit</button>
-          </form>
+          <div className="search__form">
+            <form onSubmit={this.handleSubmit}>
+              <input type="text" name="search" onChange={this.handleChange} />
+              <button type="submit">Submit</button>
+            </form>
+          </div>
           <Results results={this.state.results} />
         </div>
       </div>

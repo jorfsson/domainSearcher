@@ -21,9 +21,7 @@ exports.login = async (req, res) => {
         { username, password } = body;
   try {
     let user = await User.login({username, password});
-    console.log('user: ', user)
     let token = jwt.sign({ user }, process.env.secret, { expiresIn: '1h' });
-    console.log('token: ', token)
     res.status(200).send({ auth: true, token, status: 200, username });
   } catch (err) {
     console.log(err)

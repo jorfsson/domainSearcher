@@ -21,6 +21,14 @@ export function checkToken(token) {
   }
 }
 
+export function setUsername(username) {
+  localStorage.setItem('username', username)
+}
+
+export function getUsername() {
+  return localStorage.getItem('username');
+}
+
 export function authFetch(url, options) {
   const headers = {
     'Accept': 'application/json',
@@ -37,14 +45,14 @@ export function authFetch(url, options) {
 }
 
 export function login(username, password) {
-  return authFetch('http://localhost:3000/login', {
+  return authFetch(`http://localhost:3000/login`, {
     method: 'POST',
     mode: 'cors',
     body: JSON.stringify({ username, password })
   })
   .then((res) => _checkStatus(res))
   .then((res) => {
-    console.log(res)
+    setUsername(username);
     setToken(res.token);
     return res.token;
   })
@@ -58,6 +66,7 @@ export function loggedIn() {
 
 export function logout() {
   localStorage.removeItem('token');
+  localStorage.removeItem('username');
 }
 
 export function register(username, password) {
@@ -67,11 +76,19 @@ export function register(username, password) {
     body: JSON.stringify({ username, password })
   })
   .then((res) => {
-    console.log(res);
+    setUsername(username);
     setToken(res.token);
     return res.token;
   })
   .catch((err) => { console.log(err) })
+}
+
+export function search({ search }) {
+  return authFetch('http://localhost:3000/search', {
+    method: 'POST',
+    mode: 'cors',
+    body: JSON.stringify({ search }),
+  })
 }
 
 export function _checkStatus(response) {

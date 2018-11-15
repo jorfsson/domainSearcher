@@ -8,26 +8,37 @@ body * {
   align-items: center;
 }
 
-.login {
+.login-form {
   flex-direction: column;
   padding: 50px 10px;
   border-radius: 25px;
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-.login__field {
+.login-form__field {
   width: 100%;
 }
 
-.login__buttons {
+.login-form__buttons {
   justify-content: space-around;
 }
 
-.login__buttons button {
+.login-form__buttons button {
   width: 50%;
 }
 
+.search__user-bar {
+  width: 100%;
+  justify-content: flex-end;
+}
+.search__user-bar__username {
+  width: 100%;
+}
 .search {
   height: 100%;
+  width: 100%;
+}
+
+.search__form {
   width: 100%;
 }
