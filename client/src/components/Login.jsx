@@ -14,6 +14,7 @@ class Login extends React.Component {
     this.handleLogin = this.handleLogin.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
     this.setTokenState = this.props.setTokenState;
+    this.setUser = this.props.setUser;
   }
 
   handleChange(e) {
@@ -24,7 +25,7 @@ class Login extends React.Component {
     e.preventDefault();
     console.log('Logging in!');
     let { username, password } = this.state;
-    login(username, password)
+    return login(username, password)
     .then((res) => this.setTokenState(res))
     .then((res) => this.props.history.replace('/'))
     .catch((err) => { console.log(err) })
@@ -32,8 +33,9 @@ class Login extends React.Component {
 
   handleRegister(e) {
     e.preventDefault();
+    console.log('Registering new user!')
     let { username, password } = this.state;
-    register(username, password)
+    return register(username, password)
     .then((res) => this.setTokenState(res))
     .then((res) => this.props.history.replace('/'))
     .catch((err) => { console.log(err) })
@@ -41,15 +43,19 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div className="login">
-        <form>
-          Username
-          <input type="text" name="username" onChange={this.handleChange} />
-          Password
-          <input type="password" name="password" onChange={this.handleChange} />
-          <button type="submit" name="action" value="login" onClick={this.handleLogin}>Login</button>
-          <button type="submit" name="action" value="register" onClick={this.handleRegister}>Register</button>
-        </form>
+      <div className="container d-flex">
+        <div className="card login d-flex" style={{width: "18rem"}}>
+          <form>
+            Username
+            <input className="login__field" type="text" name="username" onChange={this.handleChange} />
+            Password
+            <input className="login__field" type="password" name="password" onChange={this.handleChange} />
+            <div className="login__buttons d-flex">
+              <button type="submit" name="action" value="login" onClick={this.handleLogin}>Login</button>
+              <button type="submit" name="action" value="register" onClick={this.handleRegister}>Register</button>
+            </div>
+          </form>
+        </div>
       </div>
     )
   }

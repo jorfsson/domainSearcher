@@ -1,0 +1,33 @@
+body * {
+  outline: 1px dotted black;
+}
+
+.container {
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.login {
+  flex-direction: column;
+  padding: 50px 10px;
+  border-radius: 25px;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.login__field {
+  width: 100%;
+}
+
+.login__buttons {
+  justify-content: space-around;
+}
+
+.login__buttons button {
+  width: 50%;
+}
+
+.search {
+  height: 100%;
+  width: 100%;
+}

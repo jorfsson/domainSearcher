@@ -26,12 +26,9 @@ export function authFetch(url, options) {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
   }
-  console.log(getToken())
-  logout()
   if (loggedIn()) {
     headers['Authorization'] = 'Bearer ' + getToken();
   }
-
   return fetch(url, {
     headers,
     ...options
@@ -47,6 +44,7 @@ export function login(username, password) {
   })
   .then((res) => _checkStatus(res))
   .then((res) => {
+    console.log(res)
     setToken(res.token);
     return res.token;
   })
@@ -69,6 +67,7 @@ export function register(username, password) {
     body: JSON.stringify({ username, password })
   })
   .then((res) => {
+    console.log(res);
     setToken(res.token);
     return res.token;
   })
@@ -77,5 +76,5 @@ export function register(username, password) {
 
 export function _checkStatus(response) {
   return response.status >= 200 && response.status < 300 ?
-    response : new Error(`Error ${response.status}: ${response}`);
+    response : Promise.reject(new Error(`Error ${response.status}: ${response}`));
 }

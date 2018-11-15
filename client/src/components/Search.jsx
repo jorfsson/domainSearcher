@@ -8,7 +8,7 @@ class Search extends React.Component{
     super(props);
     this.state = {
       search: "",
-      results: [],
+      results: []
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -26,9 +26,7 @@ class Search extends React.Component{
         'Content-Type': 'application/json'
       },
     })
-    .then((data) => {
-      console.log(data);
-    })
+    .then((data) => { console.log(data); })
   }
 
   handleChange(e) {
@@ -39,20 +37,22 @@ class Search extends React.Component{
 
   handleLogout() {
     logout();
-    this.props.setTokenState()
+    this.props.setTokenState({username: ""})
     return this.props.history.replace('/');
   }
 
   render() {
     return (
-      <div>
+      <div className="container">
         <button type="submit" onClick={this.handleLogout}>Logout</button>
-        User logged in: {this.props.user}
-        <form onSubmit={this.handleSubmit}>
-          <input type="text" name="search" onChange={this.handleChange} />
-          <button type="submit">Submit</button>
-        </form>
-        <Results results={this.state.results} />
+        User logged in as {this.props.user}
+        <div className="search d-flex">
+          <form onSubmit={this.handleSubmit}>
+            <input type="text" name="search" onChange={this.handleChange} />
+            <button type="submit">Submit</button>
+          </form>
+          <Results results={this.state.results} />
+        </div>
       </div>
     )
   }
