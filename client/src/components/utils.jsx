@@ -1,11 +1,11 @@
 import decode from 'jwt-decode';
 
 export function getToken() {
-  return localStorage.getItem('token') || null
+  return sessionStorage.getItem('token') || null
 }
 
 export function setToken(token) {
-  localStorage.setItem('token', token);
+  sessionStorage.setItem('token', token);
 }
 
 export function checkToken(token) {
@@ -22,11 +22,11 @@ export function checkToken(token) {
 }
 
 export function setUsername(username) {
-  localStorage.setItem('username', username)
+  sessionStorage.setItem('username', username)
 }
 
 export function getUsername() {
-  return localStorage.getItem('username');
+  return sessionStorage.getItem('username');
 }
 
 export function authFetch(url, options) {
@@ -65,8 +65,8 @@ export function loggedIn() {
 }
 
 export function logout() {
-  localStorage.removeItem('token');
-  localStorage.removeItem('username');
+  sessionStorage.removeItem('token');
+  sessionStorage.removeItem('username');
 }
 
 export function register(username, password) {
@@ -83,12 +83,14 @@ export function register(username, password) {
   .catch((err) => { console.log(err) })
 }
 
-export function search({ search }) {
-  return authFetch('http://localhost:3000/search', {
+export function search(search) {
+  let searches = search.split(', ');
+  return Promise.all(searches.map((search) => authFetch('http://localhost:3000/search', {
     method: 'POST',
     mode: 'cors',
-    body: JSON.stringify({ search }),
+    body: JSON.stringify({ search })
   })
+))
 }
 
 export function _checkStatus(response) {

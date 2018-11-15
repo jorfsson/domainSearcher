@@ -14,7 +14,6 @@ class Login extends React.Component {
     this.handleLogin = this.handleLogin.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
     this.setTokenState = this.props.setTokenState;
-    this.setUsername = this.props.setUsername;
   }
 
   handleChange(e) {
@@ -26,7 +25,7 @@ class Login extends React.Component {
     console.log('Logging in!');
     let { username, password } = this.state;
     login(username, password)
-    .then((res) => { this.setUsername(); this.setTokenState()})
+    .then((res) => this.setTokenState())
     .then((res) => this.props.history.replace('/'))
     .catch((err) => { console.log(err) })
   }
@@ -36,7 +35,7 @@ class Login extends React.Component {
     console.log('Registering new user!')
     let { username, password } = this.state;
     register(username, password)
-    .then((res) => { this.setUsername(); this.setTokenState()})
+    .then((res) => this.setTokenState())
     .then((res) => this.props.history.replace('/'))
     .catch((err) => { console.log(err) })
   }

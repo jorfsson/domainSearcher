@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Redirect } from "react-router-dom";
-import { loggedIn, logout, getToken, getUsername } from './utils.jsx';
+import { loggedIn, logout, getToken } from './utils.jsx';
 import Login from './Login.jsx';
 import Search from './Search.jsx';
 import decode from 'jwt-decode';
@@ -11,10 +11,8 @@ class App extends React.Component{
     super(props);
     this.state = {
       token: getToken(),
-      username: getUsername()
     }
     this.setTokenState = this.setTokenState.bind(this);
-    this.setUsername = this.setUsername.bind(this);
   }
 
   setTokenState() {
@@ -23,11 +21,7 @@ class App extends React.Component{
     })
   }
 
-  setUsername() {
-    this.setState({
-      user: getUsername()
-    })
-  }
+
 
   render() {
     return (
@@ -40,13 +34,13 @@ class App extends React.Component{
           )}/>
         <Route path='/search' render={(props) =>
           this.state.token ? (
-            <Search setTokenState={this.setTokenState} username={this.state.username} {...props}/>
+            <Search setTokenState={this.setTokenState}  {...props}/>
           ) : (
             <Redirect to='/login' {...props} />
           )}/>
         <Route path='/login' render={(props) =>
           !this.state.token ? (
-            <Login setTokenState={this.setTokenState} setUsername={this.setUsername} {...props}/>
+            <Login setTokenState={this.setTokenState} {...props}/>
           ) : (
             <Redirect to='/search' {...props} />
           )}/>

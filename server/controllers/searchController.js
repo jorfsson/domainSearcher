@@ -9,7 +9,7 @@ exports.getDomains = async (req, res, next) => {
       qs: {
         key: 'AIzaSyBXGkVilmqEN0KSDAaQy1BlVVIA8r4nS6w',
         cx: '009637816073108880163:nfsysoqnztc',
-        q: req.body.data
+        q: req.body.search
       }
     };
     try {
@@ -24,7 +24,7 @@ exports.getDomains = async (req, res, next) => {
 exports.createSearch = async (req, res, next) => {
   console.log('creating search!')
   try {
-    let searchEntry = await Search.upsert({ search_term: req.body.data })
+    let searchEntry = await Search.upsert({ search_term: req.body.search })
     req.searchID = searchEntry.id;
   } catch (err) {
     console.log('createSearch', err);
@@ -34,7 +34,7 @@ exports.createSearch = async (req, res, next) => {
 
 exports.createDomains = async (req, res, next) => {
   try {
-    let domainEntries = await Promise.all(req.results.map((result) => Domain.upsert({ url: result })));
+    let domainEntries = await Promise.all(req.results.map(async (result) => await Domain.upsert({ url: result })));
     req.domainIDs = domainEntries.map((domain) => domain.id);
   } catch (err) {
     console.log('createDomains', err);
@@ -44,7 +44,7 @@ exports.createDomains = async (req, res, next) => {
 
 exports.createResults = async (req, res, next) => {
   try {
-    await Promise.all(req.domainIDs.map((domainID) => Result.upsert({ search_id: req.searchID, domain_id: domainID })));
+    await Promise.all(req.domainIDs.map(async (domainID) => await Result.upsert({ search_id: req.searchID, domain_id: domainID })));
     console.log('Success!');
   } catch (err) {
     console.log('createResults', err);
@@ -53,7 +53,7 @@ exports.createResults = async (req, res, next) => {
 }
 
 exports.getResults = (req, res) => {
-  Search.where({ search_term: req.body.data })
+  Search.where({ search_term: req.body.search })
   .fetch({withRelated: ['results']})
   .then((results) => {
     res.send(results);
