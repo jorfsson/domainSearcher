@@ -34,7 +34,11 @@ exports.createSearch = async (req, res, next) => {
 
 exports.createDomains = async (req, res, next) => {
   try {
-    let domainEntries = await Promise.all(req.results.map(async (result) => await Domain.upsert({ url: result })));
+    let domainEntries = [];
+    for (let i = 0; i < req.results.length; i++) {
+      let domain = await Domain.upsert({ url: req.results[i] })
+      domainEntries.push(domain);
+    }
     req.domainIDs = domainEntries.map((domain) => domain.id);
   } catch (err) {
     console.log('createDomains', err);
@@ -44,7 +48,9 @@ exports.createDomains = async (req, res, next) => {
 
 exports.createResults = async (req, res, next) => {
   try {
-    await Promise.all(req.domainIDs.map(async (domainID) => await Result.upsert({ search_id: req.searchID, domain_id: domainID })));
+    await Promise.all(req.domainIDs.map((domainID) =>
+      Result.upsert({ search_id: req.searchID, domain_id: domainID })
+    ));
     console.log('Success!');
   } catch (err) {
     console.log('createResults', err);
