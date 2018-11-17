@@ -47,19 +47,19 @@ class Search extends React.Component{
 
   render() {
     return (
-      <div className="container">
+      <div className="container search">
         <div className="search__user-bar d-flex">
           <span className="search__user-bar__username">Logged in as <strong>{this.state.user}</strong></span>
           <button type="submit" onClick={this.handleLogout}>Logout</button>
         </div>
         <div className="search d-flex">
-          <div className="search__form">
-            <form onSubmit={this.handleSearch}>
-              <input type="text" name="search" onChange={this.handleChange} />
-              <button type="submit">Submit</button>
+            <form className="search__form d-flex" onSubmit={this.handleSearch}>
+              <input className="search__form-input" type="text" name="search" placeholder='Limit 25 search terms. Separate by commons, i.e. "company1, company2, company3..."' onChange={this.handleChange} />
+              <button className="search__form-button" type="submit">Submit</button>
             </form>
+          <div className="search__results d-flex">
+            {this.state.results.map((result) => <Results key={result.id} result={result} />)}
           </div>
-          <Results results={this.state.results} />
         </div>
       </div>
     )

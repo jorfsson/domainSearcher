@@ -37,8 +37,28 @@ body * {
 .search {
   height: 100%;
   width: 100%;
+  flex-direction: column;
 }
 
 .search__form {
+  padding: 10% 0;
   width: 100%;
+}
+
+.search__form-input {
+  width: 100%;
+}
+
+.search__form-button {
+  width: 10%;
+}
+
+.search__results {
+  flex-direction: column;
+}
+
+.domains {
+  width: 100%;
+  padding-bottom: 2%;
+  flex-direction: column;
 }
