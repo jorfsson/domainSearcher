@@ -13,16 +13,16 @@ class Results extends React.Component {
 
   async handleConversions(search_id, domain_id) {
     await this.setState({ previous: this.state.current, current: { search_id, domain_id }});
-    convert(this.state.current, this.state.previous).then((res) => { console.log(res) });
+    convert(this.state.current, this.state.previous)
   }
 
   render() {
     let searches = this.props.results;
+    console.log(searches);
     return (
       <div className='queryResults'>
         {searches.map((search) =>
-          <div>{search.search_term}:
-          {search.results.map((domain) => <div className="domain" onClick={() => { this.handleConversions(search.id, domain.id)}}>{domain.url}</div>)}
+          <div>{search.results.map((domain) => <div className="domain" href={domain.url} onClick={() => { this.handleConversions(search.id, domain.id)}}>{domain.url}</div>)}
           </div>
         )}
       </div>

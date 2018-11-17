@@ -3,6 +3,16 @@ const Domain = require('../models/Domain');
 const Result = require('../models/Result');
 const Search = require('../models/Search');
 
+exports.createSearch = async (req, res, next) => {
+  try {
+    let searchEntry = await Search.upsert({ search_term: req.body.search })
+    req.searchID = searchEntry.id;
+  } catch (err) {
+    console.log(err);
+  }
+  next();
+}
+
 exports.getDomains = async (req, res, next) => {
     let options = {
       url: 'https://www.googleapis.com/customsearch/v1',
@@ -16,33 +26,21 @@ exports.getDomains = async (req, res, next) => {
       let results = JSON.parse(await request(options)).items.map((item) => item.link);
       req.results = results;
     } catch (err) {
-      res.status(500).json(err)
+      console.log(err)
     }
     next();
-}
-
-exports.createSearch = async (req, res, next) => {
-  try {
-    let searchEntry = await Search.upsert({ search_term: req.body.search })
-    req.searchID = searchEntry.id;
-  } catch (err) {
-    console.log('createSearch', err);
-  }
-  next();
 }
 
 exports.createDomains = async (req, res, next) => {
   try {
     let domainEntries = [];
     for (let i = 0; i < req.results.length; i++) {
-      let domain = async function(result) {
-        return await Domain.upsert({ url: result })
-      }
+      let domain = async (result) => await Domain.upsert({ url: result });
       await domain(req.results[i]).then((res) => { domainEntries.push(res)});
     }
     req.domainIDs = domainEntries.map((domain) => domain.id);
   } catch (err) {
-    console.log('createDomains', err);
+    console.log(err);
   }
   next();
 }
@@ -60,9 +58,7 @@ exports.createResults = async (req, res, next) => {
 
 exports.getResults = (req, res) => {
   Search.where({ search_term: req.body.search })
-  .fetch({ withRelated: [
-    'results']
-  })
+  .fetch({ withRelated: ['results']})
   .then((results) => res.json(results))
 }
 
@@ -72,5 +68,5 @@ exports.convert = async (req, res) => {
     Result.subtractConversion({ search_id: previous.search_id, domain_id: previous.domain_id })
   }
   Result.addConversion({ search_id: previous.search_id, domain_id: previous.domain_id })
-  res.json({ message: 'Conversion successful!' })
+  res.status(200).json({ message: 'Conversion successful!' })
 }

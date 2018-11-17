@@ -9,7 +9,7 @@ exports.register = async (req, res) => {
   try {
     let user = await User.register({ username, password: hashed });
     let token = jwt.sign({ username }, process.env.secret, { expiresIn: '1h' });
-    res.json({ auth: true, token, status: 201, message: 'Successfully registered!' });
+    res.status(201).json({ auth: true, token, status: 201, message: 'Successfully registered!' });
   } catch (err) {
     console.log(err)
     res.status(500).json(err)

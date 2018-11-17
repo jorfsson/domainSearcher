@@ -30,7 +30,7 @@ class Search extends React.Component{
   handleSearch(e){
     e.preventDefault();
     search(this.state.search)
-    .then((res) => this.setState({ results: res }))
+    .then((res) => { console.log(res); this.setState({ results: res })})
   }
 
   handleChange(e) {

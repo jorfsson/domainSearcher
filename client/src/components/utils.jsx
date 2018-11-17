@@ -18,7 +18,6 @@ export function checkToken(token) {
 }
 
 export function _setAuth(response) {
-  console.log(response.message);
   let token = response.token, decoded = decode(token);
   setUsername(decoded.username);
   setToken(token);
@@ -45,7 +44,7 @@ export function authFetch(url, options) {
     headers,
     ...options
   })
-  .then(res => res.json())
+  .then((res) => res.json())
   .catch((err) => console.log(err))
 }
 
