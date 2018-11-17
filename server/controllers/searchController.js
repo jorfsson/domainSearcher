@@ -58,15 +58,15 @@ exports.createResults = async (req, res, next) => {
 
 exports.getResults = (req, res) => {
   Search.where({ search_term: req.body.search })
-  .fetch({ withRelated: ['results']})
+  .fetch({ withRelated: [{results: (result) => { result.orderBy('searches_domains.conversions', 'DESC') }}]})
   .then((results) => res.json(results))
 }
 
 exports.convert = async (req, res) => {
   let { current, previous } = req.body;
-  if (Object.keys(previous).length === 0 && previous.constructor === Object) {
-    Result.subtractConversion({ search_id: previous.search_id, domain_id: previous.domain_id })
+  if (previous.search_id !== undefined) {
+    await Result.subtractConversion({ search_id: previous.search_id, domain_id: previous.domain_id })
   }
-  Result.addConversion({ search_id: previous.search_id, domain_id: previous.domain_id })
+  await Result.addConversion({ search_id: current.search_id, domain_id: current.domain_id })
   res.status(200).json({ message: 'Conversion successful!' })
 }

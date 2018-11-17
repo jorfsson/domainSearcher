@@ -94,7 +94,7 @@ export function convert(current, previous) {
     method: 'POST',
     mode: 'cors',
     body: JSON.stringify({ current, previous })
-  })
+  }).then((res) => { console.log(res) })
 }
 
 export function _checkStatus(response) {
