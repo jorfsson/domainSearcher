@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { getDomains, createSearch, createDomains, createResults, getResults } = require('../controllers/searchController');
+const { getDomains, createSearch, createDomains, createResults, getResults, convert } = require('../controllers/searchController');
+const { authorize } = require('../controllers/authController.js');
 
-router.post('/', createSearch, getDomains, createDomains, createResults, getResults);
+router.post('/', authorize, createSearch, getDomains, createDomains, createResults, getResults);
+
+router.post('/convert', authorize, convert);
 
 router.post('/test', (req, res) => {
   res.send('Success!')

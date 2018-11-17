@@ -22,7 +22,6 @@ class Login extends React.Component {
 
   handleLogin(e) {
     e.preventDefault();
-    console.log('Logging in!');
     let { username, password } = this.state;
     login(username, password)
     .then((res) => this.setTokenState())

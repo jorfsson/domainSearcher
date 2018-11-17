@@ -16,13 +16,12 @@ exports.getDomains = async (req, res, next) => {
       let results = JSON.parse(await request(options)).items.map((item) => item.link);
       req.results = results;
     } catch (err) {
-      console.log('get domains', err);
+      res.status(500).json(err)
     }
     next();
 }
 
 exports.createSearch = async (req, res, next) => {
-  console.log('creating search!')
   try {
     let searchEntry = await Search.upsert({ search_term: req.body.search })
     req.searchID = searchEntry.id;
@@ -36,8 +35,10 @@ exports.createDomains = async (req, res, next) => {
   try {
     let domainEntries = [];
     for (let i = 0; i < req.results.length; i++) {
-      let domain = await Domain.upsert({ url: req.results[i] })
-      domainEntries.push(domain);
+      let domain = async function(result) {
+        return await Domain.upsert({ url: result })
+      }
+      await domain(req.results[i]).then((res) => { domainEntries.push(res)});
     }
     req.domainIDs = domainEntries.map((domain) => domain.id);
   } catch (err) {
@@ -51,17 +52,25 @@ exports.createResults = async (req, res, next) => {
     await Promise.all(req.domainIDs.map((domainID) =>
       Result.upsert({ search_id: req.searchID, domain_id: domainID })
     ));
-    console.log('Success!');
   } catch (err) {
-    console.log('createResults', err);
+    console.log(err);
   }
   next();
 }
 
 exports.getResults = (req, res) => {
   Search.where({ search_term: req.body.search })
-  .fetch({withRelated: ['results']})
-  .then((results) => {
-    res.send(results);
+  .fetch({ withRelated: [
+    'results']
   })
+  .then((results) => res.json(results))
+}
+
+exports.convert = async (req, res) => {
+  let { current, previous } = req.body;
+  if (Object.keys(previous).length === 0 && previous.constructor === Object) {
+    Result.subtractConversion({ search_id: previous.search_id, domain_id: previous.domain_id })
+  }
+  Result.addConversion({ search_id: previous.search_id, domain_id: previous.domain_id })
+  res.json({ message: 'Conversion successful!' })
 }

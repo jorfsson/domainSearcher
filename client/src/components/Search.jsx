@@ -41,7 +41,7 @@ class Search extends React.Component{
 
   handleLogout() {
     logout();
-    this.props.setTokenState({username: ""})
+    this.props.setTokenState({ username: "" })
     return this.props.history.replace('/');
   }
 

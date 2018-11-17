@@ -10,15 +10,19 @@ export function setToken(token) {
 
 export function checkToken(token) {
   try {
-    const decoded = decode(token);
-    if (decoded.exp > Date.now() / 1000) {
-      return true;
-    } else {
-      return false;
-    }
+    let decoded = decode(token);
+    return decoded.exp > Date.now() / 1000 ? true : false;
   } catch (err) {
     console.log(err);
   }
+}
+
+export function _setAuth(response) {
+  console.log(response.message);
+  let token = response.token, decoded = decode(token);
+  setUsername(decoded.username);
+  setToken(token);
+  return response;
 }
 
 export function setUsername(username) {
@@ -41,7 +45,8 @@ export function authFetch(url, options) {
     headers,
     ...options
   })
-  .then(res => res.json());
+  .then(res => res.json())
+  .catch((err) => console.log(err))
 }
 
 export function login(username, password) {
@@ -50,17 +55,13 @@ export function login(username, password) {
     mode: 'cors',
     body: JSON.stringify({ username, password })
   })
-  .then((res) => _checkStatus(res))
-  .then((res) => {
-    setUsername(username);
-    setToken(res.token);
-    return res.token;
-  })
+  .then((data) => _checkStatus(data))
+  .then((data) => _setAuth(data))
   .catch((err) => { console.log(err) })
 }
 
 export function loggedIn() {
-  const token = getToken();
+  let token = getToken();
   return !!token && checkToken(token);
 }
 
@@ -75,11 +76,8 @@ export function register(username, password) {
     mode: 'cors',
     body: JSON.stringify({ username, password })
   })
-  .then((res) => {
-    setUsername(username);
-    setToken(res.token);
-    return res.token;
-  })
+  .then((data) => _setAuth(data))
+  .then((data) => _checkStatus(data))
   .catch((err) => { console.log(err) })
 }
 
@@ -89,8 +87,15 @@ export function search(search) {
     method: 'POST',
     mode: 'cors',
     body: JSON.stringify({ search })
+  })))
+}
+
+export function convert(current, previous) {
+  return authFetch(`http://localhost:3000/search/convert`, {
+    method: 'POST',
+    mode: 'cors',
+    body: JSON.stringify({ current, previous })
   })
-))
 }
 
 export function _checkStatus(response) {

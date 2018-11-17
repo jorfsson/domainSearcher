@@ -8,11 +8,11 @@ exports.register = async (req, res) => {
         hashed = bcrypt.hashSync(password, 8);
   try {
     let user = await User.register({ username, password: hashed });
-    let token = jwt.sign({ user }, process.env.secret, { expiresIn: '1h' });
-    res.send({ auth: true, token, status: 200, username });
+    let token = jwt.sign({ username }, process.env.secret, { expiresIn: '1h' });
+    res.json({ auth: true, token, status: 201, message: 'Successfully registered!' });
   } catch (err) {
     console.log(err)
-    res.status(500).send(err)
+    res.status(500).json(err)
   }
 }
 
@@ -21,10 +21,10 @@ exports.login = async (req, res) => {
         { username, password } = body;
   try {
     let user = await User.login({username, password});
-    let token = jwt.sign({ user }, process.env.secret, { expiresIn: '1h' });
-    res.status(200).send({ auth: true, token, status: 200, username });
+    let token = jwt.sign({ username }, process.env.secret, { expiresIn: '1h' });
+    res.status(200).json({ auth: true, token, status: 202, message: 'Login successful!' });
   } catch (err) {
     console.log(err)
-    res.status(500).send(err)
+    res.status(500).json(err)
   }
 }
