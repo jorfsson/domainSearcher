@@ -5,11 +5,12 @@ import decode from 'jwt-decode';
 ----------------------------------------------------------*/
 
 function _authFetch(url, options) {
-  let startTime = new Date().getTime()
+  console.log(getToken())
+  let startTime = new Date().getTime();
   const headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
-  }
+  };
   if (loggedIn()) {
     headers['Authorization'] = 'Bearer ' + getToken();
   }
@@ -28,8 +29,8 @@ export function register(username, password) {
     mode: 'cors',
     body: JSON.stringify({ username, password })
   })
-  .then((data) => _setAuth(data))
   .then((data) => _checkStatus(data))
+  .then((data) => _setAuth(data))
   .catch((err) => { console.log(err) })
 }
 
@@ -65,7 +66,6 @@ export function convert(current, previous) {
 }
 
 function _logRequest(duration) {
-  console.log(duration)
   fetch(`http://localhost:3000/requests`, {
     method: 'POST',
     mode: 'cors',
@@ -84,7 +84,8 @@ function _logRequest(duration) {
 ----------------------------------------------------------*/
 
 export function getToken() {
-  return sessionStorage.getItem('token') || null
+  let token = sessionStorage.getItem('token')
+  return token;
 }
 
 function _setToken(token) {
@@ -104,12 +105,7 @@ function _checkToken(token) {
   Authenticate
 ----------------------------------------------------------*/
 
-function _setAuth(response) {
-  let token = response.token, decoded = decode(token);
-  _setUsername(decoded.username);
-  _setToken(token);
-  return response;
-}
+
 
 function _checkStatus(response) {
   return response.status >= 200 && response.status < 300 ?
@@ -120,12 +116,20 @@ function _setUsername(username) {
   sessionStorage.setItem('username', username)
 }
 
+function _setAuth(response) {
+  let token = response.token, decoded = decode(token);
+  _setUsername(decoded.username);
+  _setToken(token);
+  return response;
+}
+
 export function getUsername() {
   return sessionStorage.getItem('username');
 }
 
 export function loggedIn() {
   let token = getToken();
+  console.log('hello: ', token)
   return !!token && _checkToken(token);
 }
 

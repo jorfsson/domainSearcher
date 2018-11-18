@@ -14,7 +14,7 @@ class App extends React.Component{
     }
     this.setTokenState = this.setTokenState.bind(this);
   }
-
+  
   setTokenState() {
     this.setState({
       token: getToken(),
