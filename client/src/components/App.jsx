@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Redirect } from "react-router-dom";
-import { getToken } from './utils.jsx';
+import { isLoggedIn } from './utils.jsx';
 import Login from './Login.jsx';
 import Search from './Search.jsx';
 import decode from 'jwt-decode';
@@ -10,14 +10,14 @@ class App extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      token: getToken()
+      token: isLoggedIn()
     }
     this.setTokenState = this.setTokenState.bind(this);
   }
-  
+
   setTokenState() {
     this.setState({
-      token: getToken(),
+      token: isloggedIn(),
     })
   }
 

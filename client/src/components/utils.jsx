@@ -11,7 +11,7 @@ function _authFetch(url, options) {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
   };
-  if (loggedIn()) {
+  if (isLoggedIn()) {
     headers['Authorization'] = 'Bearer ' + getToken();
   }
   return fetch(url, { headers, ...options })
@@ -127,9 +127,8 @@ export function getUsername() {
   return sessionStorage.getItem('username');
 }
 
-export function loggedIn() {
+export function isLoggedIn() {
   let token = getToken();
-  console.log('hello: ', token)
   return !!token && _checkToken(token);
 }
 
