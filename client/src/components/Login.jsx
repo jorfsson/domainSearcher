@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Redirect from "react-router-dom";
-import { login, register, logout, loggedIn, getToken } from './utils.jsx';
+import { login, register } from './utils.jsx';
 
 class Login extends React.Component {
   constructor(props) {
@@ -31,7 +31,6 @@ class Login extends React.Component {
 
   handleRegister(e) {
     e.preventDefault();
-    console.log('Registering new user!')
     let { username, password } = this.state;
     register(username, password)
     .then((res) => this.setTokenState())

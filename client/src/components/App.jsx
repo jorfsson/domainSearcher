@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Redirect } from "react-router-dom";
-import { loggedIn, logout, getToken } from './utils.jsx';
+import { getToken } from './utils.jsx';
 import Login from './Login.jsx';
 import Search from './Search.jsx';
 import decode from 'jwt-decode';
@@ -10,7 +10,7 @@ class App extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      token: getToken(),
+      token: getToken()
     }
     this.setTokenState = this.setTokenState.bind(this);
   }
@@ -20,8 +20,6 @@ class App extends React.Component{
       token: getToken(),
     })
   }
-
-
 
   render() {
     return (

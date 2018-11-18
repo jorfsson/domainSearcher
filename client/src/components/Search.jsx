@@ -1,7 +1,7 @@
 import React from 'react';
-import Results from './Results.jsx';
+import Result from './Result.jsx';
 import decode from 'jwt-decode';
-import { authFetch, logout, getToken, loggedIn, search, getUsername } from './utils.jsx';
+import { logout, search, getUsername } from './utils.jsx';
 
 class Search extends React.Component{
   constructor(props) {
@@ -30,13 +30,11 @@ class Search extends React.Component{
   handleSearch(e){
     e.preventDefault();
     search(this.state.search)
-    .then((res) => { console.log(res); this.setState({ results: res })})
+    .then((res) => this.setState({ results: res }))
   }
 
   handleChange(e) {
-    this.setState({
-      search: e.target.value
-    })
+    this.setState({ search: e.target.value })
   }
 
   handleLogout() {
@@ -58,7 +56,7 @@ class Search extends React.Component{
               <button className="search__form-button" type="submit">Submit</button>
             </form>
           <div className="search__results d-flex">
-            {this.state.results.map((result) => <Results key={result.id} result={result} />)}
+            {this.state.results.map((result) => <Result key={result.id} result={result} />)}
           </div>
         </div>
       </div>

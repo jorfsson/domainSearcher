@@ -10,6 +10,7 @@ require('dotenv').config()
 const search = require('./routes/search.js');
 const login = require('./routes/login.js');
 const register = require('./routes/register.js');
+const logRequest = require('./routes/logRequest.js');
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -22,6 +23,7 @@ app.use(bodyParser.json());
 app.use('/search', search);
 app.use('/login', login);
 app.use('/register', register);
+app.use('/requests', logRequest);
 
 app.listen(process.env.port, () => {
   console.log(`Listening on ${process.env.port}...`)

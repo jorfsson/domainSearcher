@@ -34,4 +34,9 @@ CREATE TABLE searches_domains (
     REFERENCES domains (ID) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION,
   UNIQUE (search_id, domain_id)
-)
+);
+
+CREATE TABLE requests (
+  ID SERIAL PRIMARY KEY,
+  duration INT NOT NULL
+);
