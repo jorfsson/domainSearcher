@@ -1,5 +1,5 @@
 body * {
-  outline: 1px dotted black;
+  padding: 5px;
 }
 
 .container {
@@ -27,20 +27,27 @@ body * {
   width: 50%;
 }
 
-.search__user-bar {
-  width: 100%;
-  justify-content: flex-end;
-}
-.search__user-bar__username {
-  width: 100%;
-}
 .search {
   height: 100%;
   width: 100%;
   flex-direction: column;
+  background-color: rgba(78, 119, 153, 0.1);
+}
+
+
+.search__user-bar {
+  background-color: rgba(78, 119, 153, 0.5);
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.search__user-bar__username {
+  width: 100%;
 }
 
 .search__form {
+  background-color: rgba(78, 119, 153, 0.2);
+
   padding: 10% 0;
   width: 100%;
 }
@@ -61,4 +68,5 @@ body * {
   width: 100%;
   padding-bottom: 2%;
   flex-direction: column;
+  background-color: rgba(255, 255, 255, 0.7)
 }

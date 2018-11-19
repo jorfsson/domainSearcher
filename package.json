@@ -4,7 +4,7 @@
   "description": "Domain Search Tool",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha test.js",
     "server": "nodemon server/main.js",
     "start:dev": "webpack-dev-server"
   },
@@ -48,6 +48,12 @@
     "@babel/preset-env": "^7.1.5",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.0-beta.0",
+    "chai": "^4.2.0",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.7.0",
+    "mocha": "^5.2.0",
+    "prettier": "1.15.2",
+    "sinon": "^7.1.1",
     "webpack": "^4.25.1",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.10"

@@ -5,7 +5,6 @@ import decode from 'jwt-decode';
 ----------------------------------------------------------*/
 
 function _authFetch(url, options) {
-  console.log(getToken())
   let startTime = new Date().getTime();
   const headers = {
     'Accept': 'application/json',
@@ -20,29 +19,16 @@ function _authFetch(url, options) {
     _logRequest(requestDuration.toString());
     return res.json()
   })
-  .catch((err) => console.log(err))
 }
 
-export function register(username, password) {
-  return _authFetch('http://localhost:3000/register', {
+export function submit(method, username, password) {
+  return _authFetch(`http://localhost:3000/${method}`, {
     method: 'POST',
     mode: 'cors',
     body: JSON.stringify({ username, password })
   })
   .then((data) => _checkStatus(data))
   .then((data) => _setAuth(data))
-  .catch((err) => { console.log(err) })
-}
-
-export function login(username, password) {
-  return _authFetch(`http://localhost:3000/login`, {
-    method: 'POST',
-    mode: 'cors',
-    body: JSON.stringify({ username, password })
-  })
-  .then((data) => _checkStatus(data))
-  .then((data) => _setAuth(data))
-  .catch((err) => { console.log(err) })
 }
 
 
@@ -105,15 +91,9 @@ function _checkToken(token) {
   Authenticate
 ----------------------------------------------------------*/
 
-
-
 function _checkStatus(response) {
   return response.status >= 200 && response.status < 300 ?
-    response : Promise.reject(new Error(`Error ${response.status}: ${response}`));
-}
-
-function _setUsername(username) {
-  sessionStorage.setItem('username', username)
+    response : Promise.reject(new Error(response.error));
 }
 
 function _setAuth(response) {
@@ -123,9 +103,22 @@ function _setAuth(response) {
   return response;
 }
 
+/* ----------------------------------------------------------
+  Username
+----------------------------------------------------------*/
+
+function _setUsername(username) {
+  sessionStorage.setItem('username', username)
+}
+
 export function getUsername() {
   return sessionStorage.getItem('username');
 }
+
+
+/* ----------------------------------------------------------
+  Login status
+----------------------------------------------------------*/
 
 export function isLoggedIn() {
   let token = getToken();

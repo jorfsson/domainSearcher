@@ -5,6 +5,7 @@ const request = require('request');
 const app = express();
 const server = require('http').Server(app);
 
+
 require('dotenv').config()
 
 const search = require('./routes/search.js');
@@ -19,11 +20,17 @@ app.use((req, res, next) => {
 });
 
 app.use(bodyParser.json());
+app.use('/', express.static(path.resolve(__dirname, '../client/dist')))
+
 
 app.use('/search', search);
 app.use('/login', login);
 app.use('/register', register);
 app.use('/requests', logRequest);
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../client/dist/index.html'))
+})
 
 app.listen(process.env.port, () => {
   console.log(`Listening on ${process.env.port}...`)

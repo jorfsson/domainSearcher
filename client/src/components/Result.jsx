@@ -37,9 +37,9 @@ class Result extends React.Component {
           </a>
         </h2>
         Other Results:
-        {this.domains.map((domain) =>
-          <a className="domain" href={domain.url} target="_blank" key={domain.id} onClick={() => { this.handleConversions(domain._pivot_search_id, domain._pivot_domain_id)}}>
-            {domain.url}
+        {this.domains.map(({ url, id, _pivot_search_id, _pivot_domain_id }) =>
+          <a className="domain" href={ url } target="_blank" key={ id } onClick={() => { this.handleConversions( _pivot_search_id, _pivot_domain_id)}}>
+            { url }
           </a>
         )}
       </div>

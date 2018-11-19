@@ -7,8 +7,4 @@ router.post('/', authorize, createSearch, getDomains, createDomains, createResul
 
 router.post('/convert', authorize, convert);
 
-router.post('/test', (req, res) => {
-  res.send('Success!')
-})
-
 module.exports = router;
