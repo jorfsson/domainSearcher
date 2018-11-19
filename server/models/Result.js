@@ -17,9 +17,8 @@ let Result = BaseModel.extend({
         domain_id: data.domain_id
       }),
       total = existing.get('conversions');
-
       total += 1;
-      existing.save({ conversions: total }, { patch: true})
+      existing.save({ conversions: total }, { patch: true })
     },
     subtractConversion: async function(data) {
       let existing = await this.findOne({
@@ -27,7 +26,6 @@ let Result = BaseModel.extend({
         domain_id: data.domain_id
       }),
       total = existing.get('conversions');
-
       if (total > 0) {
         total -= 1;
         existing.save({ conversions: total }, { patch: true })
