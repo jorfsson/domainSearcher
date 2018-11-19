@@ -4,6 +4,7 @@
   "description": "Domain Search Tool",
   "main": "index.js",
   "scripts": {
+    "build": "npm i --only=prod && nodemon server/main.js",
     "test": "mocha test.js",
     "server": "nodemon server/main.js",
     "start:dev": "webpack-dev-server"
